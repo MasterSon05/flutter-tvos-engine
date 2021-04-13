@@ -9,7 +9,7 @@
 
 vars = {
   'upc_git': 'ssh://git@bitbucket.upc.biz:7999/pers',
-  'upc_revision': '1.26.0-17.6.pre',
+  'upc_revision': '2.2.1',
   'chromium_git': 'https://chromium.googlesource.com',
   'swiftshader_git': 'https://swiftshader.googlesource.com',
   'dart_git': 'https://dart.googlesource.com',
@@ -238,7 +238,7 @@ allowed_hosts = [
 ]
 
 deps = {
-  'src': 'https://github.com/flutter/buildroot.git' + '@' + '8747bce41d0dc6d9dc45c4d1b46d2100bb9ee688',
+  'src': Var('upc_git') + '/flutter-buildroot.git' + '@' + Var('upc_revision'),
 
    # Fuchsia compatibility
    #
