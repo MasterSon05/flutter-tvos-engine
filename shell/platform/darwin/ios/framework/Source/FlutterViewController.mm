@@ -715,6 +715,9 @@ static void SendFakeTouchEvent(FlutterEngine* engine,
     [self.keyEventChannel sendMessage:keyMessage];
 }
 - (void)handleTap: (UITapGestureRecognizer *)recognizer withType:(NSString *)keyMapType keyType:(int)key {
+
+  NSLog(@"recognizer: %@", recognizer);
+
     if (recognizer.state == UIGestureRecognizerStateBegan) {
       [self sendTap:key withType:keyMapType ofType:@"keydown"];
     } else if (recognizer.state == UIGestureRecognizerStateEnded) {
@@ -734,7 +737,15 @@ static void SendFakeTouchEvent(FlutterEngine* engine,
     [self handleTap:recognizer withType:@"macos" keyType:0x7C];
 }
 - (void)handleCenterTap:(UITapGestureRecognizer *)recognizer {
-    [self handleTap:recognizer withType:@"macos" keyType:0x24];
+//    [self handleTap:recognizer withType:@"macos" keyType:0x24];
+
+    // only send once
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+      [self sendGamepadTouchesWithType:@"click_s" x:0 y:0];
+    } else if (recognizer.state == UIGestureRecognizerStateEnded) {
+      [self sendGamepadTouchesWithType:@"click_e" x:0 y:0];
+    }
+
 }
 - (void)handlePlayPauseTap:(UITapGestureRecognizer *)recognizer {
     //No such key on macos so we fake android
@@ -754,6 +765,8 @@ static void SendFakeTouchEvent(FlutterEngine* engine,
 
 
 - (void)sendGamepadTouchesWithType:(NSString*)type x:(float)x y:(float)y {
+   NSLog(@"sendGamepadTouchesWithType: %f,%f", x, y);
+
     NSMutableDictionary* dictionary = [@{
         @"type": type,
         @"x" : @(x),
@@ -765,7 +778,7 @@ static void SendFakeTouchEvent(FlutterEngine* engine,
 - (void)setupTouchesWithGamepad:(GCMicroGamepad *)gamepad {
     gamepad.reportsAbsoluteDpadValues = true;
     gamepad.dpad.valueChangedHandler = ^(GCControllerDirectionPad * _Nonnull dpad, float xValue, float yValue) {
-//        [self sendGamepadTouchesWithType:@"move2" x:xValue y:yValue];
+      [self sendGamepadTouchesWithType:@"loc" x:xValue y:yValue];
     };
 }
 
@@ -1276,7 +1289,7 @@ static flutter::PointerData::DeviceKind DeviceKindFromTouchType(UITouch* touch) 
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
   #ifdef TARGET_OS_TV
     for (UITouch* touch in touches) {
-      CGPoint location = [touch locationInView:self.view];
+     CGPoint location = [touch locationInView:self.view];
       [self sendGamepadTouchesWithType:@"move" x:location.x y:location.y];
     }
   #else
