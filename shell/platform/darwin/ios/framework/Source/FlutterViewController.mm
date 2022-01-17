@@ -1654,9 +1654,9 @@ static flutter::PointerData::DeviceKind DeviceKindFromTouchType(UITouch* touch) 
 // both places to capture keys both inside and outside of a text field, but have
 // slightly different implmentations.
 
+#if !(defined(TARGET_OS_TV) && TARGET_OS_TV)    
 - (void)pressesBegan:(NSSet<UIPress*>*)presses
-           withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {     
-  #if !(defined(TARGET_OS_TV) && TARGET_OS_TV)              
+           withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                 
   if (@available(iOS 13.4, tvOS 13.4, *)) {
     for (UIPress* press in presses) {
       [self handlePressEvent:[[[FlutterUIPressProxy alloc] initWithPress:press
@@ -1668,12 +1668,10 @@ static flutter::PointerData::DeviceKind DeviceKindFromTouchType(UITouch* touch) 
   } else {
     [super pressesBegan:presses withEvent:event];
   }
-  #endif
 }
 
 - (void)pressesChanged:(NSSet<UIPress*>*)presses
-             withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {
-  #if !(defined(TARGET_OS_TV) && TARGET_OS_TV)                         
+             withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                       
   if (@available(iOS 13.4, tvOS 13.4, *)) {
     for (UIPress* press in presses) {
       [self handlePressEvent:[[[FlutterUIPressProxy alloc] initWithPress:press
@@ -1685,12 +1683,10 @@ static flutter::PointerData::DeviceKind DeviceKindFromTouchType(UITouch* touch) 
   } else {
     [super pressesChanged:presses withEvent:event];
   }
-  #endif  
 }
 
 - (void)pressesEnded:(NSSet<UIPress*>*)presses
-           withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {
-  #if !(defined(TARGET_OS_TV) && TARGET_OS_TV)                                    
+           withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                             
   if (@available(iOS 13.4, tvOS 13.4, *)) {
     for (UIPress* press in presses) {
       [self handlePressEvent:[[[FlutterUIPressProxy alloc] initWithPress:press
@@ -1701,13 +1697,11 @@ static flutter::PointerData::DeviceKind DeviceKindFromTouchType(UITouch* touch) 
     }
   } else {
     [super pressesEnded:presses withEvent:event];
-  }
-  #endif   
+  } 
 }
 
 - (void)pressesCancelled:(NSSet<UIPress*>*)presses
-               withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {
-  #if !(defined(TARGET_OS_TV) && TARGET_OS_TV)                                        
+               withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                                    
   if (@available(iOS 13.4, tvOS 13.4, *)) {
     for (UIPress* press in presses) {
       [self handlePressEvent:[[[FlutterUIPressProxy alloc] initWithPress:press
@@ -1719,8 +1713,30 @@ static flutter::PointerData::DeviceKind DeviceKindFromTouchType(UITouch* touch) 
   } else {
     [super pressesCancelled:presses withEvent:event];
   }
-  #endif
 }
+
+#else
+
+- (void)pressesBegan:(NSSet<UIPress*>*)presses
+           withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                
+    [super pressesBegan:presses withEvent:event];
+}
+
+- (void)pressesChanged:(NSSet<UIPress*>*)presses
+             withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                       
+    [super pressesChanged:presses withEvent:event];
+}
+
+- (void)pressesEnded:(NSSet<UIPress*>*)presses
+           withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                                    
+    [super pressesEnded:presses withEvent:event];
+}
+
+- (void)pressesCancelled:(NSSet<UIPress*>*)presses
+               withEvent:(UIPressesEvent*)event API_AVAILABLE(ios(9.0),tvos(10.0)) {                                      
+    [super pressesCancelled:presses withEvent:event];
+}
+#endif
 
 #pragma mark - Orientation updates
 
