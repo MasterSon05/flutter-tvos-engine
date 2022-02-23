@@ -2613,6 +2613,7 @@ return false;
 #pragma mark - Methods related to Scribble support
 
 - (void)setupIndirectScribbleInteraction:(id<FlutterViewResponder>)viewResponder {
+#if !(defined(TARGET_OS_TV) && TARGET_OS_TV)
   if (_viewResponder != viewResponder) {
     if (@available(iOS 14.0, *)) {
       UIView* parentView = viewResponder.view;
@@ -2624,6 +2625,7 @@ return false;
     }
   }
   _viewResponder = viewResponder;
+#endif
 }
 
 - (void)resetViewResponder {
