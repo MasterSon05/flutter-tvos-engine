@@ -96,11 +96,6 @@ class CkPicture extends ManagedSkiaObject<SkPicture> implements ui.Picture {
 
   @override
   Future<ui.Image> toImage(int width, int height) async {
-    return toImageSync(width, height);
-  }
-
-  @override
-  ui.Image toImageSync(int width, int height) {
     assert(debugCheckNotDisposed('Cannot convert picture to image.'));
     final Surface surface = SurfaceFactory.instance.pictureToImageSurface;
     final CkSurface ckSurface =
