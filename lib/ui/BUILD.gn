@@ -4,7 +4,6 @@
 
 import("//build/fuchsia/sdk.gni")
 import("//flutter/common/config.gni")
-import("//flutter/impeller/tools/impeller.gni")
 import("//flutter/testing/testing.gni")
 
 source_set("ui") {
