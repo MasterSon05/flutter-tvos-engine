@@ -111,20 +111,14 @@ static bool LogMTLCommandBufferErrorIfPresent(id<MTLCommandBuffer> buffer) {
   return false;
 }
 
-<<<<<<< HEAD
 static id<MTLCommandBuffer> CreateCommandBuffer(id<MTLCommandQueue> queue) {
-=======
-id<MTLCommandBuffer> CreateCommandBuffer(id<MTLCommandQueue> queue) {
-#if !(defined(TARGET_OS_TV) && TARGET_OS_TV)
->>>>>>> 063d6c5820 (update to 3.3.1)
-  if (@available(iOS 14.0, macOS 11.0, *)) {
+  if (@available(iOS 14.0, tvOS, 14.0, macOS 11.0, *)) {
     auto desc = [[MTLCommandBufferDescriptor alloc] init];
     // Degrades CPU performance slightly but is well worth the cost for typical
     // Impeller workloads.
     desc.errorOptions = MTLCommandBufferErrorOptionEncoderExecutionStatus;
     return [queue commandBufferWithDescriptor:desc];
   }
-#endif
   return [queue commandBuffer];
 }
 
