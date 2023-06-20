@@ -112,7 +112,7 @@ static bool LogMTLCommandBufferErrorIfPresent(id<MTLCommandBuffer> buffer) {
 }
 
 static id<MTLCommandBuffer> CreateCommandBuffer(id<MTLCommandQueue> queue) {
-  if (@available(iOS 14.0, tvOS, 14.0, macOS 11.0, *)) {
+  if (@available(iOS 14.0, tvOS 14.0, macOS 11.0, *)) {
     auto desc = [[MTLCommandBufferDescriptor alloc] init];
     // Degrades CPU performance slightly but is well worth the cost for typical
     // Impeller workloads.
