@@ -907,9 +907,9 @@ static BOOL IsSelectionRectCloserToPoint(CGPoint point,
   [_textContentType release];
 #if !(defined(TARGET_OS_TV) && TARGET_OS_TV)
   [_textInteraction release];
+#endif  
   [_temporarilyDeletedComposedCharacter release];
   _temporarilyDeletedComposedCharacter = nil;
-#endif
   [super dealloc];
 }
 
@@ -2257,7 +2257,7 @@ return false;
 }
 
 - (void)startLiveTextInput {
-  if (@available(iOS 15.0, *)) {
+  if (@available(iOS 15.0, tvOS 15.0, *)) {
     if (_activeView == nil || !_activeView.isFirstResponder) {
       return;
     }
