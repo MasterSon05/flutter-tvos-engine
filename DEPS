@@ -9,7 +9,7 @@
 
 vars = {
   'upc_git': 'https://github.com/LibertyGlobal',
-  'upc_revision': '3.13.9',
+  'upc_revision': '3.10.6',
   'chromium_git': 'https://chromium.googlesource.com',
   'swiftshader_git': 'https://swiftshader.googlesource.com',
   'dart_git': 'https://dart.googlesource.com',
